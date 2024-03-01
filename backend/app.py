@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_cors import CORS
 from sqlalchemy.sql import func
+import serial
+import time
 
 
 app = Flask(__name__)
@@ -14,7 +16,27 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///coins.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Add after initializing your Flask app
+
+# Replace 'COM3' with the correct port name where your Arduino is connected
+arduino = serial.Serial('/dev/tty.usbmodem149589401', 9600)
+time.sleep(2) # Wait for the serial connection to initialize
+
+def withdraw10Yen():
+    arduino.write(b'a')
+
+def withdraw100Yen():
+    arduino.write(b'b')
+
+def pickUp10Yen():
+    arduino.write(b'c')
+
+def pickUp100Yen():
+    arduino.write(b'd')
+
+
+
+
+
 
 class CoinEntry(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -28,6 +50,58 @@ class CoinEntry(db.Model):
 def create_tables():
     db.create_all()
 
+@app.route('/add_10_yen', methods=['POST'])
+def add_10_yen():
+    pickUp10Yen();
+    time.sleep(1);
+    entry = CoinEntry(value=10)
+    db.session.add(entry)
+    db.session.commit()
+
+    return jsonify({'message': 'Added 10 yen successfully'}), 200
+
+@app.route('/add_100_yen', methods=['POST'])
+def add_100_yen():
+    pickUp100Yen();
+    time.sleep(1);
+    entry = CoinEntry(value=100)
+    db.session.add(entry)
+    db.session.commit()
+
+    return jsonify({'message': 'Added 100 yen successfully'}), 200
+
+@app.route('/subtract_10_yen', methods=['POST'])
+def subtract_10_yen():
+            
+    total_tens = CoinEntry.query.filter(CoinEntry.value == 10).count() - CoinEntry.query.filter(CoinEntry.value == -10).count()
+    if total_tens > 0:  # Check if there's at least one 10 yen to subtract
+        entry = CoinEntry(value=-10)
+        db.session.add(entry)
+        db.session.commit()
+        withdraw10Yen()
+        time.sleep(1) # Delay to allow Arduino to process the command
+
+        return jsonify({'message': 'Subtracted 10 yen successfully'}), 200
+    else:
+        return jsonify({'message': 'Insufficient 10 yen to subtract'}), 400
+
+
+@app.route('/subtract_100_yen', methods=['POST'])
+def subtract_100_yen():
+    total_hundreds = CoinEntry.query.filter(CoinEntry.value == 100).count() - CoinEntry.query.filter(CoinEntry.value == -100).count()
+    if total_hundreds > 0:  # Check if there's at least one 100 yen to subtract
+        entry = CoinEntry(value=-100)
+        db.session.add(entry)
+        db.session.commit()
+        withdraw100Yen()
+        time.sleep(1) # Delay to allow Arduino to process the command
+
+        return jsonify({'message': 'Subtracted 100 yen successfully'}), 200
+    else:
+        return jsonify({'message': 'Insufficient 100 yen to subtract'}), 400
+
+
+
 @app.route('/add_coin', methods=['GET'])
 def add_coin():
     coin_value = request.args.get('value', default=0, type=int)
@@ -37,6 +111,9 @@ def add_coin():
     db.session.add(new_coin)
     db.session.commit()
     return jsonify({'message': 'Coin added successfully.', 'coin': {'value': new_coin.value, 'timestamp': new_coin.timestamp}}), 201
+
+
+
 
 @app.route('/withdraw_coin', methods=['GET'])
 def withdraw_coin():
