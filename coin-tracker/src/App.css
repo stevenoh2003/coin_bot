@@ -1,0 +1,194 @@
+/* App.css */
+body,
+html {
+  font-family: 'Roboto', sans-serif;
+  /* Modern, clean font */
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  /* Light gray background */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  /* Stack children vertically */
+  align-items: center;
+  /* Center children horizontally */
+  margin: 20px;
+  gap: 20px;
+  /* Adds space between total coins display and charts */
+  width: 90%;
+  /* Ensures the container fills the available width */
+  max-width: 900px;
+  /* Maximum width to prevent overly wide layouts */
+}
+
+.top-row {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: stretch;
+  /* Ensures children stretch to meet the height of the tallest */
+  gap: 20px;
+  /* Space between total coins display and gamepad control */
+}
+
+.total-coins-display {
+  flex-basis: 20%;
+  /* Allocates 20% of the parent container's width */
+  max-width: 20%;
+  /* Ensures it does not grow beyond this width */
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  /* Center content vertically */
+  justify-content: center;
+  /* Center content horizontally */
+}
+
+.gamepad-control {
+  flex-basis: 80%;
+  /* Allocates 80% of the parent container's width */
+  max-width: 80%;
+  /* Ensures it does not grow beyond this width */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.gamepad-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #333;
+  background-color: #e7e7e7;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.gamepad-button:hover {
+  background-color: #d4d4d4;
+}
+
+.charts-row {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  flex-wrap: wrap;
+  /* Allows charts to wrap on smaller screens */
+  justify-content: center;
+  /* Center charts within the row */
+}
+
+.chart-container {
+  flex: 1;
+  /* Allows charts to grow and fill the space */
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  /* Matches max width for consistency with total coins display */
+}
+
+/* Media query for screens smaller than 768px */
+@media (max-width: 768px) {
+  .top-row {
+    flex-direction: column;
+    /* Stack the total coins display and gamepad control vertically */
+    align-items: center;
+    /* Center align items for small screens */
+  }
+
+  .total-coins-display,
+  .gamepad-control {
+    width: 100%;
+    /* Full width for small screens */
+    max-width: none;
+    /* Removes max-width restriction */
+    margin: 0 auto;
+    /* Center align the containers for small screens */
+    flex-basis: auto;
+    /* Adjusts flex basis for vertical stacking */
+  }
+
+ .charts-row,
+ .chart-container {
+   width: 100%;
+   /* Full width */
+   max-width: none;
+   /* Removes max-width restriction */
+   padding: 0 10px;
+   /* Optional: Add padding to prevent content from touching the screen edges */
+ }
+}
+
+ .charts-row,
+ .chart-container {
+   width: 100%;
+   /* Full width */
+   max-width: none;
+   /* Removes max-width restriction */
+   padding: 0 10px;
+   /* Optional: Add padding to prevent content from touching the screen edges */
+ }
+ 
+
+ /* Gamepad Control Section */
+ .gamepad-control {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 20px;
+   margin-top: 20px;
+ }
+
+ .withdraw-section,
+ .pickup-section {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   gap: 10px;
+ }
+
+ .gamepad-button {
+   background-color: #007bff;
+   color: white;
+   border: none;
+   padding: 10px 20px;
+   cursor: pointer;
+   font-size: 16px;
+   border-radius: 5px;
+   transition: background-color 0.3s ease;
+ }
+
+ .gamepad-button:hover {
+   background-color: #0056b3;
+ }
+
+ #withdrawAmount {
+   padding: 8px;
+   font-size: 16px;
+   border: 2px solid #ccc;
+   border-radius: 5px;
+   outline: none;
+ }
+
+ label {
+   font-size: 16px;
+ }
