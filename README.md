@@ -5,7 +5,7 @@ Coin-bot is a table top personal assitant that helps you save, withdraw coins. I
 
 <p align="center">
   <img src="images/coin_bot.png" alt="Image 1 Alt Text" width="300"/>
-  <img src="images/interiod.png" alt="Image 2 Alt Text" width="300"/>
+  <img src="images/interior.png" alt="Image 2 Alt Text" width="300"/>
 </p>
 
 ## System 
